@@ -10,3 +10,6 @@
 [submodule "translation_web_service"]
 	path = translation_web_service
 	url = https://github.com/vivek87799/translation_server.git
+[submodule "database"]
+	path = database
+	url = https://github.com/vivek87799/database.git

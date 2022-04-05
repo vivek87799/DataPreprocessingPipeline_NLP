@@ -49,3 +49,7 @@ dist/**
 *.snapshotgit 
 *resources/tmx-file.tmx
 resources
+./data_pipeline/data_cleaning_old
+./data_pipeline/data_extraction_old
+./data_pipeline/kafka
+

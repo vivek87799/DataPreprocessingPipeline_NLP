@@ -1,0 +1,101 @@
+version: "3.8"
+services:
+  zookeeper-1:
+    container_name: zookeeper-1
+    image: lengoo/zookeeper:2.7.0
+    build:
+      context: ../kafka/zookeeper
+    volumes:
+    - ./config/zookeeper-1/zookeeper.properties:/kafka/config/zookeeper.properties
+    - ./data/zookeeper-1/:/tmp/zookeeper/
+    networks:
+    - lengoo_mtx
+
+  broker-1:
+    container_name: broker-1
+    image: lengoo/broker:2.7.0
+    build: 
+      context: ../kafka/broker
+    volumes:
+    - ./config/kafka-1/server.properties:/kafka/config/server.properties
+    - ./data/kafka-1/:/tmp/kafka-logs/
+    networks:
+    - lengoo_mtx
+  
+  broker-2:
+    container_name: broker-2
+    image: lengoo/broker:2.7.0
+    build: 
+      context: ../kafka/broker
+    volumes:
+    - ./config/kafka-2/server.properties:/kafka/config/server.properties
+    - ./data/kafka-2/:/tmp/kafka-logs/
+    networks:
+    - lengoo_mtx
+  broker-3:
+    container_name: broker-3
+    image: lengoo/broker:2.7.0
+    build: 
+      context: ../kafka/broker
+    volumes:
+    - ./config/kafka-3/server.properties:/kafka/config/server.properties
+    - ./data/kafka-3/:/tmp/kafka-logs/
+    networks:
+    - lengoo_mtx
+
+  kafka-producer:
+    container_name: kafka-producer
+    image: lengoo/producer:2.0
+    build: 
+      context: ../kafka/producer
+    working_dir: /home/working_dir
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
+    networks:
+    - lengoo_mtx
+    
+  
+  
+  kafka-producer-parser:
+    container_name: kafka-producer-parser
+    image: lengoo/producer/tmxparser:2.0
+    build: 
+      context: ../data_extraction
+    working_dir: /home/working_dir
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
+    networks:
+    - lengoo_mtx
+    volumes:
+    - ../kafka/data_extraction:/home/working_dir:cached
+  
+  kafka-consumer-filter:
+    container_name: kafka-consumer-filter
+    image: lengoo/consumer/filter:2.0
+    build: 
+      context: ../data_cleaning
+    working_dir: /home/working_dir
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
+    networks:
+    - lengoo_mtx
+    volumes:
+    - ../kafka/data_cleaning:/home/working_dir:cached
+  
+  kafka-consumer:
+    container_name: kafka-consumer
+    image: lengoo/consumer:2.0
+    build: 
+      context: ../kafka/consumer
+    working_dir: /kafka
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
+    networks:
+    - lengoo_mtx
+networks: 
+  lengoo_mtx:
+    name: lengoo_mtx

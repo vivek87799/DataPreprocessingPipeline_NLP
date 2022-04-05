@@ -1,0 +1,15 @@
+[submodule "data_pipeline/kafka_remote"]
+	path = data_pipeline/kafka_remote
+	url = https://github.com/vivek87799/kafka.git
+[submodule "data_pipeline/data_extraction"]
+	path = data_pipeline/data_extraction
+	url = https://github.com/vivek87799/data_extraction.git
+[submodule "data_pipeline/data_cleaning"]
+	path = data_pipeline/data_cleaning
+	url = https://github.com/vivek87799/data_cleaning.git
+[submodule "translation_web_service"]
+	path = translation_web_service
+	url = https://github.com/vivek87799/translation_server.git
+[submodule "database"]
+	path = database
+	url = https://github.com/vivek87799/database.git

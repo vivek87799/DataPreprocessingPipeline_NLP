@@ -1,33 +1,58 @@
-# Data Pipeline: 
-A simple project that takes the given tmx file parses the data and persists the data on to an elasticsearch
+#### This repository consists of two tasks
+1) Data Preprocessing Pipeline
+2) Translation Web Server 
+# Data Preprocessing Pipeline: 
+A end to end pipeline that takes the given tmx file, extracts the data,transforms or filters the data and loads it into persistant layer.
 
+The Data Preprocessing Pipeline is divided into two stages
+- Stage 1|Data Extraction: The data is extracted in parallel and pushed into the kafka topic
+- Stage 2|Data Cleaning: The streaming data from the kafka topic is transformed (filtered) in parallel and persisted on to the elastic search.
 ## Running the Project
-#### Before giving an walkthrough on the project let us set up the landscape
-- docker-compose is available in kafka repo that holds the containers for kafka brokers, data_extraction and data_cleaning. For elasticsearch the docker-compose is at database repo
+### Techincal Documentation
+The entire landscape is dockerized and connected on a netwrok bridge. Each module runs on a separate docker container (this gives us the feasibility and ease for scaling up the project)
+
+
+For setting up the data preprocessing pipeline the
+docker-compose is available in d repo that holds the containers for kafka brokers, data_extraction and data_cleaning. For elasticsearch the docker-compose is at database repo
 - all the containers runs on lengoo_mtx network
 - attach to individual containers in development for eval and debugging
 
+## Elasticsearch
+- Elasticsearch with two nodes runs on a container
+### TO Run
+ The docker-compose.yml is available in the database reopo which also takes care of creating index and mapping on startup 
+ ```
+docker-compose build
+docker-compose up 
+```
+#### Before starting the remaining modules lets start the docker landscape provided in the docker repo
+
+### TO Run
+ The docker-compose.yml is available in the docker repo
+
+ ```
+docker-compose build
+docker-compose up 
+```
+Now lets attach the the running containers to execute each module individually only for development and evaluation
 
 ## Kafka Cluster
--  This repo consists of three brokers running (refer kafka repo for more information for adding additional brokers)
-
-## Elasticsearch
-- There are two elasticsearch nodes running for distributed data persisting (refer database repo)
-
-
+-  A zookeeper and three brokers run on separate contaniers.
+(refer kafka repo for more information for adding additional brokers)
 
 
 ## Data Extraction
-- A single process runs to extract the tmx file,this also takes care of handling large file on limited local memory
-- multiple worker nodes run in parallel to filter and put the messages into the kafka topic
+- The .tmx file is extracted and multiple worker nodes run in parallel to unwrap the src and target data and publish the data on to the kafka topic
+- For configuration please refer the config file in the repo please set the path for the file
 
 ### Requirements
 - Requires that the kafka zookeeper is running
 
 ### To Run
 - Set up the parameters including the tmx file path, kafka topic to be published on in config.py and message_publisher/config.py
-- Use the docker file provided to set up the container and to install the required packages
+
 - To attach to the running container
+
 ```
 docker exec -it kafka-producer-parser bash
 ```
@@ -38,8 +63,7 @@ python data_extraction.py
 ```
 
 ## Data Cleaning
-- This module uses python Faust for stream processing data from kafka topic and persist the data on to the elastic search
-- The applicaion is simple and scalable
+- This module uses python Faust for stream processing data from kafka topic to preprocess the data and persist on to the elasticsearch
 
 ### Requirements
 - Requires that the kafka zookeeper is running
@@ -47,13 +71,30 @@ python data_extraction.py
 
 ### To Run
 - Set up the parameters kafka topic, elasticsearch broker on in config.py
-- Use the docker file provided to set up the container and to install the required packages
+
 - To attach to the running container
 ```
 docker exec -it kafka-consumer-filter bash
 ```
 - To run the data extraction module execute the below comand
+c
+- Multiple nodes can be intintiated on different instance for parallel processing
+
+# Translation Web Server
+#### Now that our data has been persisted the translation web server provides a simple web interface to retrive the persisted data
+
+- This module uses FastAPI to create endpoints to access the data and swagger for interface
+- In short it mimics NLP translation model on the backend
+
+### To Run
+To run the module the docker-compose file is available in the the translation_web_server submodule
+
 ```
-faust -A data_cleaning worker -l info --web-port 6067
+docker-compose build
+docker-compose up
 ```
-- Multiple nodes can be intintiated on the same system on different ports
+
+To access the the swagger doc
+ http://127.0.0.1:8000/docs
+
+

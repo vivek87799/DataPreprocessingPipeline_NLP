@@ -6,8 +6,8 @@ services:
     build:
       context: ../kafka/zookeeper
     volumes:
-    - ./config/zookeeper-1/zookeeper.properties:/kafka/config/zookeeper.properties
-    - ./data/zookeeper-1/:/tmp/zookeeper/
+    - ../kafka/config/zookeeper-1/zookeeper.properties:/kafka/config/zookeeper.properties
+    - ../kafka/data/zookeeper-1/:/tmp/zookeeper/
     networks:
     - lengoo_mtx
 
@@ -17,8 +17,8 @@ services:
     build: 
       context: ../kafka/broker
     volumes:
-    - ./config/kafka-1/server.properties:/kafka/config/server.properties
-    - ./data/kafka-1/:/tmp/kafka-logs/
+    - ../kafka/config/kafka-1/server.properties:/kafka/config/server.properties
+    - ../kafka/data/kafka-1/:/tmp/kafka-logs/
     networks:
     - lengoo_mtx
   
@@ -28,8 +28,8 @@ services:
     build: 
       context: ../kafka/broker
     volumes:
-    - ./config/kafka-2/server.properties:/kafka/config/server.properties
-    - ./data/kafka-2/:/tmp/kafka-logs/
+    - ../kafka/config/kafka-2/server.properties:/kafka/config/server.properties
+    - ../kafka/data/kafka-2/:/tmp/kafka-logs/
     networks:
     - lengoo_mtx
   broker-3:
@@ -38,8 +38,8 @@ services:
     build: 
       context: ../kafka/broker
     volumes:
-    - ./config/kafka-3/server.properties:/kafka/config/server.properties
-    - ./data/kafka-3/:/tmp/kafka-logs/
+    - ../kafka/config/kafka-3/server.properties:/kafka/config/server.properties
+    - ../kafka/data/kafka-3/:/tmp/kafka-logs/
     networks:
     - lengoo_mtx
 

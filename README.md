@@ -1,6 +1,9 @@
 #### This repository consists of two tasks
 1) Data Preprocessing Pipeline
 2) Translation Web Server 
+
+![Alt text](resources/MTXArchitecture.jpg?raw=true "Title")
+
 # Data Preprocessing Pipeline: 
 A end to end pipeline that takes the given tmx file, extracts the data,transforms or filters the data and loads it into persistant layer.
 

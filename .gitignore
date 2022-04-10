@@ -42,7 +42,6 @@ pydevd*.log
 nodeLanguageServer/**
 nodeLanguageServer.*/**
 dist/**
-*resources
 *.log
 *.index
 *.timeindex

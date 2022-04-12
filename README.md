@@ -2,14 +2,16 @@
 1) Data Preprocessing Pipeline
 2) Translation Web Server 
 
-![Alt text](resources/MTXArchitecture.jpg?raw=true "Title")
+![Alt text](resources/MTXArchitecture.jpg?raw=true "Lengoo Machine Translation Architecture")
 
 # Data Preprocessing Pipeline: 
 A end to end pipeline that takes the given tmx file, extracts the data,transforms or filters the data and loads it into persistant layer.
 
-The Data Preprocessing Pipeline is divided into two stages
+The Data Preprocessing Pipeline is divided into three stages
 - Stage 1|Data Extraction: The data is extracted in parallel and pushed into the kafka topic
-- Stage 2|Data Cleaning: The streaming data from the kafka topic is transformed (filtered) in parallel and persisted on to the elastic search.
+- Stage 2|Data Cleaning: The streaming data from the kafka topic is transformed (filtered) in parallel.
+- Stage 3|Data Writing: The filtered data is then persisted on to the elasticsearch.
+
 ## Running the Project
 ### Techincal Documentation
 The entire landscape is dockerized and connected on a netwrok bridge. Each module runs on a separate docker container (this gives us the feasibility and ease for scaling up the project)

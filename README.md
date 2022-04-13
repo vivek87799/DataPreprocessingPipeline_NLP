@@ -30,7 +30,21 @@ docker-compose is available in d repo that holds the containers for kafka broker
 docker-compose build
 docker-compose up 
 ```
-#### Before starting the remaining modules lets start the docker landscape provided in the docker repo
+
+Now lets attach the the running containers to execute each module individually only for development and evaluation
+
+## Kafka Cluster
+-  A zookeeper and three brokers run on separate contaniers.
+(refer kafka repo for more information for adding additional brokers)
+
+### TO Run
+ The docker-compose.yml is available in the kafka repo to start the kafka cluster
+
+ ```
+docker-compose build
+docker-compose up 
+
+#### Before starting the data extraction and data cleaning modules lets start the docker landscape provided in the docker repo
 
 ### TO Run
  The docker-compose.yml is available in the docker repo
@@ -39,12 +53,6 @@ docker-compose up
 docker-compose build
 docker-compose up 
 ```
-Now lets attach the the running containers to execute each module individually only for development and evaluation
-
-## Kafka Cluster
--  A zookeeper and three brokers run on separate contaniers.
-(refer kafka repo for more information for adding additional brokers)
-
 
 ## Data Extraction
 - The .tmx file is extracted and multiple worker nodes run in parallel to unwrap the src and target data and publish the data on to the kafka topic
